@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container py-5" style="max-width:720px">
+  <div class="card p-4 shadow-sm">
+    <h4>Post a buy request</h4>
+    <form method="post">
+      {{ form.hidden_tag() }}
+      <div class="mb-2">{{ form.title.label }} {{ form.title(class_="form-control") }}</div>
+      <div class="mb-2">{{ form.author.label }} {{ form.author(class_="form-control") }}</div>
+      <div class="mb-2">{{ form.budget.label }} {{ form.budget(class_="form-control") }}</div>
+      <div class="mb-2">{{ form.location.label }} {{ form.location(class_="form-control") }}</div>
+      <div class="mb-2">{{ form.details.label }} {{ form.details(class_="form-control", rows=4) }}</div>
+      {{ form.submit(class_="btn btn-primary") }}
+    </form>
+  </div>
+</div>
+{% endblock %}

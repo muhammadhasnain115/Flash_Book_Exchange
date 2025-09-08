@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container py-5">
+  <h4 class="mb-3">Browse Books</h4>
+  <div class="row g-3">
+    {% for b in books %}
+      <div class="col-sm-6 col-md-4 col-lg-3">
+        <div class="card h-100 shadow-sm border-0">
+          <img src="{{ url_for('static', filename='uploads/' ~ b.image_file) if b.image_file else url_for('static', filename='img/sample_book.jpg') }}"
+               class="card-img-top rounded-top"
+               style="height:220px;object-fit:cover"
+               alt="{{ b.title }}">
+
+          <div class="card-body">
+            <h6 class="fw-bold text-dark">{{ b.title }}</h6>
+            <div class="small text-muted">{{ b.author or '—' }}</div>
+            <div class="mt-2 fw-semibold">
+              {% if b.is_free %}
+                <span class="text-success">FREE</span>
+              {% else %}
+                Rs {{ '%.0f'|format(b.price or 0) }}
+              {% endif %}
+            </div>
+          </div>
+
+          <div class="card-footer d-flex justify-content-between small bg-light">
+            <span class="badge bg-{{ 'success' if b.condition=='new' else 'secondary' }}">
+              {{ b.condition|capitalize }}
+            </span>
+            <a class="stretched-link" href="{{ url_for('books.book_detail', book_id=b.id) }}"></a>
+          </div>
+        </div>
+      </div>
+    {% else %}
+      <div class="text-muted">No books found.</div>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

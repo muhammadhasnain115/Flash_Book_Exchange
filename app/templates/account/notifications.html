@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container py-5" style="max-width:900px">
+  <h4 class="mb-3">Notifications</h4>
+  {% if notifications %}
+    <ul class="list-group shadow-sm">
+      {% for n in notifications %}
+        <li class="list-group-item d-flex justify-content-between align-items-start">
+          <div class="ms-2 me-auto">
+            <div class="fw-semibold">{{ n.title }}</div>
+            <div class="small text-muted">{{ n.created_at.strftime('%b %d, %Y %I:%M %p') }}</div>
+            <div>{{ n.body }}</div>
+          </div>
+          {% if not n.read %}<span class="badge bg-primary rounded-pill">New</span>{% endif %}
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <div class="alert alert-light border">No notifications yet.</div>
+  {% endif %}
+</div>
+{% endblock %}

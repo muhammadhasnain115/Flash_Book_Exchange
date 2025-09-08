@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container py-5">
+  <div class="card-hover shadow-lg p-4">
+    <div class="row g-4 align-items-center">
+
+      <!-- Request Image -->
+      <div class="col-md-5">
+        <img src="{{ url_for('static', filename='uploads/' ~ buy_request.image_file) if buy_request.image_file else url_for('static', filename='img/sample_book.jpg') }}"
+             class="img-fluid rounded"
+             alt="{{ buy_request.title }}">
+      </div>
+
+      <!-- Request Info -->
+      <div class="col-md-7">
+        <h2 class="fw-bold text-gradient mb-2">{{ buy_request.title }}</h2>
+        <p class="text-muted mb-3">
+          {{ buy_request.author or '—' }} • {{ buy_request.location or '—' }}
+        </p>
+
+        {% if buy_request.details %}
+          <p class="fs-5">{{ buy_request.details }}</p>
+        {% endif %}
+
+        {% if buy_request.budget %}
+          <div class="fw-semibold badge badge-success fs-6">
+            Budget: Rs {{ '%.0f'|format(buy_request.budget) }}
+          </div>
+        {% endif %}
+
+        <!-- Contact Buttons -->
+        <div class="mt-4 d-flex flex-wrap gap-3">
+          <a class="btn btn-primary"
+             href="mailto:{{ buy_request.user.email }}">
+            <i class="bi bi-envelope-fill"></i> Contact by Email
+          </a>
+
+          <a class="btn btn-success"
+             href="https://wa.me/{{ buy_request.user.phone|replace(' ', '') }}"
+             target="_blank">
+            <i class="bi bi-whatsapp"></i> Chat on WhatsApp
+          </a>
+        </div>
+
+        <!-- Posted By -->
+        <div class="mt-4 small text-muted">
+          Posted by <strong>{{ buy_request.user.name }}</strong>
+          • {{ buy_request.created_at.strftime('%d %B %Y') }}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

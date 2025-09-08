@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container py-5" style="max-width:900px">
+  <div class="card p-4 shadow-sm">
+    <h4 class="mb-4">Post a Buy Request</h4>
+    <form method="post" enctype="multipart/form-data">
+      {{ form.hidden_tag() }}
+      <div class="row g-3">
+        <!-- Title -->
+        <div class="col-md-8">
+          {{ form.title.label(class_="form-label") }}
+          {{ form.title(class_="form-control") }}
+        </div>
+
+        <!-- Author -->
+        <div class="col-md-4">
+          {{ form.author.label(class_="form-label") }}
+          {{ form.author(class_="form-control") }}
+        </div>
+
+        <!-- Budget -->
+        <div class="col-md-4">
+          {{ form.budget.label(class_="form-label") }}
+          {{ form.budget(class_="form-control") }}
+        </div>
+
+        <!-- Location -->
+        <div class="col-md-4">
+          {{ form.location.label(class_="form-label") }}
+          {{ form.location(class_="form-control") }}
+        </div>
+
+        <!-- Is Free -->
+        <div class="col-md-4 d-flex align-items-center">
+          <div class="form-check mt-4">
+            {{ form.is_free(class_="form-check-input") }}
+            {{ form.is_free.label(class_="form-check-label") }}
+          </div>
+        </div>
+
+        <!-- Details -->
+        <div class="col-12">
+          {{ form.details.label(class_="form-label") }}
+          {{ form.details(class_="form-control", rows=4) }}
+        </div>
+
+        <!-- Image Upload -->
+        <div class="col-12">
+          {{ form.image.label(class_="form-label") }}
+          {{ form.image(class_="form-control") }}
+        </div>
+
+        <!-- Submit Button -->
+        <div class="col-12">
+          {{ form.submit(class_="btn btn-primary") }}
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,55 @@
+<!-- Reviews Section -->
+<section class="reviews-section py-5 bg-gradient-reviews position-relative overflow-hidden">
+  <div class="container position-relative z-3">
+    <h2 class="text-center mb-4 fw-bold display-5 text-gradient">What Our Users Say</h2>
+
+    <!-- Add Review Form -->
+    {% if current_user.is_authenticated %}
+    <div class="mb-4 p-3 bg-light rounded shadow-sm">
+      <form action="{{ url_for('books.add_review', book_id=book.id) }}" method="POST">
+        <div class="mb-3">
+          <label class="form-label">Rating (1-10)</label>
+          <input type="number" name="rating" min="1" max="10" class="form-control" required>
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Your Review</label>
+          <textarea name="text" class="form-control" rows="3" required></textarea>
+        </div>
+        <button type="submit" class="btn btn-gradient">Submit Review</button>
+      </form>
+    </div>
+    {% endif %}
+
+    <div class="reviews-slider d-flex flex-column gap-4" id="reviewsSlider">
+      {% for review in reviews %}
+      <div class="review-card p-4 rounded-3 shadow-sm bg-white position-relative">
+        <div class="d-flex align-items-center mb-2">
+          <img src="{{ url_for('static', filename='avatars/default.png') }}" alt="User Avatar"
+               class="rounded-circle me-3" width="50" height="50">
+          <div>
+            <h6 class="mb-0 fw-semibold">{{ review.user.username }}</h6>
+            <small class="text-muted">Rated: {{ review.rating }}/10</small>
+          </div>
+        </div>
+        <p class="review-text small opacity-75">"{{ review.text }}"</p>
+
+        <!-- Like/Dislike buttons -->
+        {% if current_user.is_authenticated %}
+        <form action="{{ url_for('books.like_review', review_id=review.id, action='like') }}" method="POST" class="d-inline">
+          <button type="submit" class="btn btn-sm btn-outline-success">
+            👍 {{ review.likes|length }}
+          </button>
+        </form>
+        <form action="{{ url_for('books.like_review', review_id=review.id, action='dislike') }}" method="POST" class="d-inline">
+          <button type="submit" class="btn btn-sm btn-outline-danger">
+            👎 {{ review.dislikes|length }}
+          </button>
+        </form>
+        {% endif %}
+      </div>
+      {% else %}
+      <p class="text-center text-muted">No reviews yet. Be the first to review!</p>
+      {% endfor %}
+    </div>
+  </div>
+</section>

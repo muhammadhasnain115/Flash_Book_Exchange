@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container py-5">
+
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h4>Buy Requests</h4>
+    {% if current_user.is_authenticated %}
+      <a class="btn btn-primary" href="{{ url_for('books.create_buyrequest') }}">
+        <i class="bi bi-plus-lg me-1"></i>Post a Buy Request
+      </a>
+    {% endif %}
+  </div>
+
+  <div class="row g-3">
+    {% for r in requests %}
+      <div class="col-sm-6 col-md-4 col-lg-3">
+        <div class="card h-100 shadow-sm border-0">
+          <img src="{{ url_for('static', filename='uploads/' ~ r.image_file) if r.image_file else url_for('static', filename='img/sample_book.jpg') }}"
+               class="card-img-top rounded-top"
+               style="height:220px; object-fit:cover"
+               alt="{{ r.title }}">
+
+          <div class="card-body">
+            <h6 class="fw-bold text-dark">{{ r.title }}</h6>
+            <div class="small text-muted">{{ r.author or '—' }} • {{ r.location or '—' }}</div>
+            <div class="mt-2 fw-semibold">
+              {% if r.budget %}
+                Rs {{ '%.0f'|format(r.budget) }}
+              {% else %}
+                <span class="text-success">FREE</span>
+              {% endif %}
+            </div>
+          </div>
+
+          <div class="card-footer d-flex justify-content-between small bg-light">
+            <span class="badge bg-secondary">Buy Request</span>
+            <a class="stretched-link" href="{{ url_for('books.buy_request_detail', request_id=r.id) }}"></a>
+          </div>
+        </div>
+      </div>
+    {% else %}
+      <div class="text-muted">No buy requests yet.</div>
+    {% endfor %}
+  </div>
+
+</div>
+{% endblock %}

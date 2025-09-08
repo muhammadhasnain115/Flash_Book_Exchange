@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container py-5" style="max-width:560px">
+  <div class="card p-4 shadow-sm">
+    <h4>Create account</h4>
+    <form method="post">
+      {{ form.hidden_tag() }}
+      <div class="mb-2">{{ form.name.label(class_="form-label") }} {{ form.name(class_="form-control") }}</div>
+      <div class="mb-2">{{ form.email.label(class_="form-label") }} {{ form.email(class_="form-control") }}</div>
+      <div class="mb-2">{{ form.phone.label(class_="form-label") }} {{ form.phone(class_="form-control") }}</div>
+      <div class="mb-2">{{ form.password.label(class_="form-label") }} {{ form.password(class_="form-control") }}</div>
+      <div class="mb-2">{{ form.confirm.label(class_="form-label") }} {{ form.confirm(class_="form-control") }}</div>
+      {{ form.submit(class_="btn btn-primary w-100") }}
+    </form>
+    <div class="small mt-3 text-center">Already have an account? <a href="{{ url_for('auth.login') }}">Login</a></div>
+  </div>
+</div>
+{% endblock %}

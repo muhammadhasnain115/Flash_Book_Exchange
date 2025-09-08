@@ -1,0 +1,150 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container py-5">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h4>My Listings & Requests</h4>
+    <div>
+      <a class="btn btn-primary me-2" href="{{ url_for('books.create_book') }}">
+        <i class="bi bi-plus-lg me-1"></i> New Book
+      </a>
+      <a class="btn btn-info" href="{{ url_for('books.create_buyrequest') }}">
+  <i class="bi bi-plus-lg me-1"></i> New Request
+      </a>
+    </div>
+  </div>
+
+  {% if listings or requests %}
+    {% for item in listings %}
+      <div class="card mb-3 shadow-sm card-hover">
+        <div class="row g-0 align-items-center">
+          <div class="col-md-3">
+            <img src="{% if item.image_file %}{{ url_for('static', filename='uploads/' ~ item.image_file) }}{% else %}{{ url_for('static', filename='img/sample_book.jpg') }}{% endif %}"
+                 class="img-fluid rounded-start" style="height:180px; object-fit:cover;" alt="{{ item.title }}">
+          </div>
+
+          <div class="col-md-6">
+            <div class="card-body">
+              <h5 class="card-title mb-1">{{ item.title }}</h5>
+              <div class="small text-muted">
+                {{ item.author or '—' }} • {{ item.category or '—' }} • {{ item.condition|default('—')|capitalize }}
+              </div>
+              <div class="mt-2 fw-semibold">
+                {% if item.is_free %}<span class="text-success">FREE</span>{% else %}Rs {{ '%.0f'|format(item.price or 0) }}{% endif %}
+              </div>
+              <div class="mt-2 small">
+                <span class="me-3">♥ {{ item.wishlist.count() }}</span>
+                <span class="me-3">★ {{ item.avg_rating() }}</span>
+                <span class="me-3"><i class="bi bi-chat-left-text"></i> {{ item.reviews.count() }}</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-3">
+            <div class="p-3 d-grid gap-2">
+              <button class="btn btn-outline-secondary btn-sm" data-id="{{ item.id }}" onclick="toggleActive(this)">
+                {{ 'Turn Off' if item.is_active else 'Turn On' }}
+              </button>
+
+              <button class="btn btn-outline-success btn-sm" data-id="{{ item.id }}" onclick="markSold(this)">
+                <i class="bi bi-bag-check"></i> Mark Sold
+              </button>
+
+              <button class="btn btn-outline-info btn-sm" data-id="{{ item.id }}" onclick="markGift(this)">
+                <i class="bi bi-gift"></i> Mark Gift
+              </button>
+
+              <a class="btn btn-outline-primary btn-sm" href="{{ url_for('books.book_detail', book_id=item.id) }}">
+                <i class="bi bi-eye"></i> View
+              </a>
+
+              <button class="btn btn-outline-danger btn-sm" data-id="{{ item.id }}" onclick="deleteListing(this)">
+                <i class="bi bi-trash"></i> Delete
+              </button>
+
+              <button class="btn btn-light btn-sm" data-bs-toggle="collapse" data-bs-target="#c{{ item.id }}">
+                <i class="bi bi-chat-left-text me-1"></i> Comments
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="collapse border-top" id="c{{ item.id }}">
+          <div class="p-3">
+            {% if item.reviews.count() > 0 %}
+              {% for r in item.reviews %}
+                <div class="border rounded p-2 mb-2 bg-light">
+                  <div class="d-flex justify-content-between">
+                    <div><strong>{{ r.author.name if r.author else 'Anonymous' }}</strong> • <small class="text-muted">{{ r.created_at.strftime('%b %d, %Y') if r.created_at else '' }}</small></div>
+                    <div>★ {{ r.rating or 0 }}</div>
+                  </div>
+                  <div class="mt-1">{{ r.comment or '' }}</div>
+                </div>
+              {% endfor %}
+            {% else %}
+              <div class="text-muted">No comments yet.</div>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+
+    {% for req in requests %}
+      <div class="card mb-3 shadow-sm card-hover">
+        <div class="row g-0 align-items-center">
+          <div class="col-md-3">
+            <img src="{% if req.image_file %}{{ url_for('static', filename='uploads/' ~ req.image_file) }}{% else %}{{ url_for('static', filename='img/sample_request.jpg') }}{% endif %}"
+                 class="img-fluid rounded-start" style="height:180px; object-fit:cover;" alt="{{ req.title }}">
+          </div>
+
+          <div class="col-md-6">
+            <div class="card-body">
+              <h5 class="card-title mb-1">{{ req.title }}</h5>
+              <div class="small text-muted">{{ req.author or '—' }}</div>
+              <div class="mt-2 fw-semibold">
+                {% if req.is_free %}<span class="text-success">FREE</span>{% else %}Budget: Rs {{ '%.0f'|format(req.budget or 0) }}{% endif %}
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-3">
+            <div class="p-3 d-grid gap-2">
+              <button class="btn btn-outline-secondary btn-sm" data-id="{{ req.id }}" onclick="toggleActive(this)">
+                {{ 'Turn Off' if req.is_active else 'Turn On' }}
+              </button>
+
+              <a class="btn btn-outline-primary btn-sm" href="{{ url_for('books.buy_request_detail', request_id=req.id) }}">
+  <i class="bi bi-eye"></i> View
+</a>
+
+
+              <button class="btn btn-outline-danger btn-sm" data-id="{{ req.id }}" onclick="deleteListing(this)">
+                <i class="bi bi-trash"></i> Delete
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  {% else %}
+    <div class="text-muted">You have no listings or requests yet.</div>
+  {% endif %}
+</div>
+
+<script>
+// JS helpers
+async function postJSON(url) {
+  const resp = await fetch(url, { method: 'POST', headers: {'X-Requested-With': 'XMLHttpRequest'} });
+  return resp.json();
+}
+
+function idFromBtn(el){ return parseInt(el.getAttribute('data-id')); }
+
+async function toggleActive(btn){ const id = idFromBtn(btn); btn.disabled = true; try{ const res = await postJSON(`/account/listing/toggle-active/${id}`); if(res.status==='ok') btn.innerText = res.is_active?'Turn Off':'Turn On'; }catch(e){ console.error(e); } btn.disabled=false; }
+
+async function markSold(btn){ const id = idFromBtn(btn); btn.disabled = true; try{ await postJSON(`/account/listing/mark-sold/${id}`); location.reload(); }catch(e){ console.error(e);} }
+
+async function markGift(btn){ const id = idFromBtn(btn); btn.disabled = true; try{ await postJSON(`/account/listing/mark-gift/${id}`); location.reload(); }catch(e){ console.error(e);} }
+
+async function deleteListing(btn){ if(!confirm('Delete this listing?')) return; const id = idFromBtn(btn); btn.disabled = true; try{ await postJSON(`/account/listing/delete/${id}`); location.reload(); }catch(e){ console.error(e);} }
+</script>
+{% endblock %}

@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container py-5" style="max-width:900px">
+  <div class="card p-4 shadow-sm">
+    <h4 class="mb-3">Create a Listing</h4>
+    <form method="post" enctype="multipart/form-data">
+      {{ form.hidden_tag() }}
+      <div class="row g-3">
+        <!-- Title -->
+        <div class="col-md-8">
+          <label class="form-label">{{ form.title.label }}</label>
+          {{ form.title(class_="form-control") }}
+        </div>
+        
+        <!-- Author -->
+        <div class="col-md-4">
+          <label class="form-label">{{ form.author.label }}</label>
+          {{ form.author(class_="form-control") }}
+        </div>
+        
+        <!-- Condition -->
+        <div class="col-md-3">
+          <label class="form-label">{{ form.condition.label }}</label>
+          {{ form.condition(class_="form-select") }}
+        </div>
+        
+        <!-- Price -->
+        <div class="col-md-3">
+          <label class="form-label">{{ form.price.label }}</label>
+          {{ form.price(class_="form-control") }}
+        </div>
+        
+        <!-- Free Checkbox -->
+        <div class="col-md-3 d-flex align-items-center">
+          <div class="form-check">
+            {{ form.is_free(class_="form-check-input") }}
+            <label class="form-check-label">{{ form.is_free.label }}</label>
+          </div>
+        </div>
+        
+        <!-- Category -->
+        <div class="col-md-3">
+          <label class="form-label">{{ form.category.label }}</label>
+          {{ form.category(class_="form-control") }}
+        </div>
+        
+        <!-- Location -->
+        <div class="col-md-6">
+          <label class="form-label">{{ form.location.label }}</label>
+          {{ form.location(class_="form-control") }}
+        </div>
+        
+        <!-- Image Upload -->
+        <div class="col-md-6">
+          <label class="form-label">{{ form.image.label }}</label>
+          {{ form.image(class_="form-control", type="file") }}
+        </div>
+        
+        <!-- Description -->
+        <div class="col-12">
+          <label class="form-label">{{ form.description.label }}</label>
+          {{ form.description(class_="form-control", rows=4) }}
+        </div>
+        
+        <!-- Submit Button -->
+        <div class="col-12">
+          {{ form.submit(class_="btn btn-primary px-4") }}
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}

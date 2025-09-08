@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container py-5">
+  <div class="row align-items-center">
+    <div class="col-lg-7">
+      <h1 class="display-6 fw-bold">Find books, share knowledge.</h1>
+      <p class="lead text-muted">List new or used books, mark free, post a buy request — we’re a nonprofit helping readers connect.</p>
+      <div class="d-flex gap-2">
+        <a class="btn btn-primary" href="{{ url_for('books.create_book') }}">Sell / Donate a Book</a>
+        <a class="btn btn-outline-primary" href="{{ url_for('books.buy_requests') }}">Post Buy Request</a>
+      </div>
+    </div>
+    <div class="col-lg-5 text-center">
+      <img src="{{ url_for('static', filename='img/sample_book.jpg') }}" class="img-fluid rounded shadow-sm" alt="books">
+    </div>
+  </div>
+
+  <hr class="my-5">
+
+  <h2 class="mb-3">Latest listings</h2>
+  <div class="row g-3">
+    {% for b in listings %}
+      <div class="col-sm-6 col-md-4 col-lg-3">
+        <div class="card h-100 shadow-sm border-0">
+          <img src="{{ url_for('static', filename='uploads/' ~ b.image_file) if b.image_file else url_for('static', filename='img/sample_book.jpg') }}"
+               class="card-img-top rounded-top"
+               style="height:220px;object-fit:cover"
+               alt="{{ b.title }}">
+
+          <div class="card-body">
+            <h6 class="fw-bold text-dark">{{ b.title }}</h6>
+            <div class="small text-muted">{{ b.author or '—' }}</div>
+            <div class="mt-2 fw-semibold">
+              {% if b.is_free %}
+                <span class="text-success">FREE</span>
+              {% else %}
+                Rs {{ '%.0f'|format(b.price or 0) }}
+              {% endif %}
+            </div>
+          </div>
+
+          <div class="card-footer d-flex justify-content-between small bg-light">
+            <span class="badge bg-{{ 'success' if b.condition=='new' else 'secondary' }}">
+              {{ b.condition|capitalize }}
+            </span>
+            <a class="stretched-link" href="{{ url_for('books.book_detail', book_id=b.id) }}"></a>
+          </div>
+        </div>
+      </div>
+    {% else %}
+      <div class="text-muted">No listings yet — be the first to add one.</div>
+    {% endfor %}
+  </div>
+
+  <hr class="my-5">
+  <h2>Recent buy requests</h2>
+  <div class="row g-3">
+    {% for r in buy_requests %}
+      <div class="col-sm-6 col-md-4 col-lg-3">
+        <div class="card h-100 shadow-sm border-0">
+          <img src="{{ url_for('static', filename='uploads/' ~ r.image_file) if r.image_file else url_for('static', filename='img/sample_book.jpg') }}"
+               class="card-img-top rounded-top"
+               style="height:220px; object-fit:cover"
+               alt="{{ r.title }}">
+
+          <div class="card-body">
+            <h6 class="fw-bold text-dark">{{ r.title }}</h6>
+            <div class="small text-muted">{{ r.author or '—' }} • {{ r.location or '—' }}</div>
+            <div class="mt-2 fw-semibold">
+              {% if r.budget %}
+                Rs {{ '%.0f'|format(r.budget) }}
+              {% else %}
+                <span class="text-success">FREE</span>
+              {% endif %}
+            </div>
+          </div>
+
+          <div class="card-footer d-flex justify-content-between small bg-light">
+            <span class="badge bg-secondary">Buy Request</span>
+            <a class="stretched-link" href="{{ url_for('books.buy_request_detail', request_id=r.id) }}"></a>
+          </div>
+        </div>
+      </div>
+    {% else %}
+      <div class="text-muted">No buy requests yet.</div>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,46 @@
+<!-- Reviews Section -->
+<section class="reviews-section py-5 bg-gradient-reviews position-relative overflow-hidden">
+  <div class="container position-relative z-3">
+    <h2 class="text-center mb-4 fw-bold display-5 text-gradient">What Our Users Say</h2>
+    <div class="reviews-slider d-flex gap-4 overflow-hidden" id="reviewsSlider">
+      <!-- Example Review -->
+      <div class="review-card p-4 rounded-3 shadow-sm bg-white position-relative review-slide">
+        <div class="d-flex align-items-center mb-3">
+          <img src="{{ url_for('static', filename='avatars/user1.jpg') }}" alt="User 1" class="rounded-circle me-3 review-avatar" width="60" height="60">
+          <div>
+            <h5 class="mb-1 fw-semibold">Jane D.</h5>
+            <div class="rating-stars" data-rating="4.5">
+              <i class="bi bi-star-fill"></i>
+              <i class="bi bi-star-fill"></i>
+              <i class="bi bi-star-fill"></i>
+              <i class="bi bi-star-fill"></i>
+              <i class="bi bi-star-half"></i>
+            </div>
+          </div>
+        </div>
+        <p class="review-text small opacity-75">"BookBridge helped me find amazing books for my children easily. Highly recommended!"</p>
+      </div>
+      
+      <!-- Repeat review cards dynamically as needed -->
+      <!-- You can generate these with Jinja2 if fetching from a database -->
+      
+    </div>
+  </div>
+  <!-- Optional: Floating animated shapes or effects for a more dynamic look -->
+</section>
+
+<script>
+    // Simple auto-scroll for reviews
+const slider = document.getElementById('reviewsSlider');
+
+function autoScroll() {
+  const maxScrollLeft = slider.scrollWidth - slider.clientWidth;
+  if (slider.scrollLeft >= maxScrollLeft) {
+    slider.scrollLeft = 0;
+  } else {
+    slider.scrollLeft += 1; // Adjust speed here
+  }
+}
+
+setInterval(autoScroll, 20); // Adjust interval for speed
+</script>

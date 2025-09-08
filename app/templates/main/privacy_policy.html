@@ -1,0 +1,27 @@
+<!-- Reviews Section -->
+<section class="reviews-section bg-gray-50 py-12">
+  <div class="container mx-auto px-4">
+    <h2 class="text-2xl font-bold text-center mb-8 text-gray-800">What Our Users Say</h2>
+    <div class="grid md:grid-cols-3 gap-6">
+      {% for review in reviews %}
+      <div class="bg-white shadow-lg rounded-2xl p-6 flex flex-col">
+        <div class="flex items-center mb-4">
+          <div class="w-10 h-10 bg-blue-100 text-blue-600 flex items-center justify-center rounded-full font-bold">
+            {{ review.username[0]|upper }}
+          </div>
+          <div class="ml-3">
+            <h3 class="text-lg font-semibold text-gray-900">{{ review.username }}</h3>
+            <!-- Star Ratings -->
+            <div class="flex">
+              {% for i in range(review.rating) %}
+                <svg class="w-4 h-4 text-yellow-400 fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 .587l3.668 7.568L24 9.748l-6 5.845 1.417 8.407L12 19.771l-7.417 4.229L6 15.593 0 9.748l8.332-1.593z"/></svg>
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+        <p class="text-gray-600 italic">"{{ review.comment }}"</p>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>

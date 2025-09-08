@@ -1,0 +1,47 @@
+<footer class="mt-5 bg-gradient-footer text-white pt-5 pb-4">
+  <div class="container">
+    <div class="row justify-content-between align-items-start">
+
+      <!-- Copyright -->
+      <div class="col-12 mb-4 text-center">
+        <small class="d-block mb-2 opacity-75">&copy; 2025 BookSwap</small>
+        <small class="opacity-50">Built by ComputeNest</small>
+      </div>
+
+      <!-- Brand Info -->
+      <div class="col-md-3 mb-4 mb-md-0 order-md-2 order-1">
+        <h5 class="fw-bold mb-3">BookSwap</h5>
+        <p class="small opacity-75 mb-4">
+          Nonprofit platform connecting readers. Share, sell, donate — helping books reach learners everywhere.
+        </p>
+        <div class="d-flex gap-3 justify-content-center justify-content-md-start">
+          <a href="#" class="text-white fs-4" aria-label="Facebook"><i class="bi bi-facebook"></i></a>
+          <a href="#" class="text-white fs-4" aria-label="Twitter"><i class="bi bi-twitter"></i></a>
+          <a href="#" class="text-white fs-4" aria-label="Instagram"><i class="bi bi-instagram"></i></a>
+          <a href="#" class="text-white fs-4" aria-label="LinkedIn"><i class="bi bi-linkedin"></i></a>
+        </div>
+      </div>
+
+      <!-- Explore Links -->
+      <div class="col-md-2 mb-4 mb-md-0 order-md-3 order-3">
+        <h6 class="fw-semibold mb-3">Explore</h6>
+        <ul class="list-unstyled small mb-0">
+          <li class="mb-2"><a href="{{ url_for('books.browse') }}" class="footer-link text-decoration-none text-white opacity-75 d-block hover-underline">Browse Listings</a></li>
+          <li class="mb-2"><a href="{{ url_for('books.create_book') }}" class="footer-link text-decoration-none text-white opacity-75 d-block hover-underline">Sell / Donate</a></li>
+          <li><a href="{{ url_for('books.buy_requests') }}" class="footer-link text-decoration-none text-white opacity-75 d-block hover-underline">Buy Requests</a></li>
+        </ul>
+      </div>
+
+      <!-- Legal & Policies Links -->
+      <div class="col-md-3 mb-4 mb-md-0 order-md-4 order-4">
+        <h6 class="fw-semibold mb-3">Legal & Policies</h6>
+        <ul class="list-unstyled small mb-0">
+          <li class="mb-2"><a href="{{ url_for('main.privacy') }}" class="footer-link text-decoration-none text-white opacity-75 d-block hover-underline">Privacy Policy</a></li>
+          <li class="mb-2"><a href="{{ url_for('main.terms') }}" class="footer-link text-decoration-none text-white opacity-75 d-block hover-underline">Terms & Conditions</a></li>
+          <li><a href="{{ url_for('main.index') }}#contact" class="footer-link text-decoration-none text-white opacity-75 d-block hover-underline">Contact</a></li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</footer>
